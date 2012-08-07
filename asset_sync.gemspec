@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency('fog')
   s.add_dependency('activemodel')
+  s.add_dependency('rack')
 
   s.add_development_dependency "rspec"
   s.add_development_dependency "bundler"

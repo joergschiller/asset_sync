@@ -1,5 +1,6 @@
 require 'fog'
 require 'active_model'
+require 'rack'
 require 'erb'
 require "asset_sync/asset_sync"
 require 'asset_sync/config'
