@@ -109,7 +109,12 @@ module AssetSync
 
       # Do not set expire header for files that are always uploaded regardless of change.
       expires = CGI.rfc1123_date(Time.now + 1.year) unless always_upload_files.include? f
-      log "Set expires for #{f}: #{expires}" if expires
+
+      if expires
+        log "Set expires for #{f}: #{expires}"
+      else
+        log "Ignore expires for #{f} because it is always uploaded."
+      end
 
       file = {
         :key => f,
