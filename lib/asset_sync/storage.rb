@@ -108,7 +108,7 @@ module AssetSync
       log "Guessed mime type for #{f}: #{mime}" if mime
 
       # Do not set expire header for files that are always uploaded regardless of change.
-      expires = CGI.rfc1123_date(Time.now + 1.year) unless always_upload_files.include? f
+      expires = CGI.rfc1123_date(Time.now + 365 * 24 * 60 * 60) unless always_upload_files.include? f
 
       if expires
         log "Set expires for #{f}: #{expires}"
@@ -120,7 +120,7 @@ module AssetSync
         :key => f,
         :body => File.open("#{path}/#{f}"),
         :public => true,
-        :cache_control => "public, max-age=31557600",
+        :cache_control => expires ? "public, max-age=31557600" : nil,
         :expires => expires,
         :content_type => mime
       }
