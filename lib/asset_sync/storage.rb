@@ -107,12 +107,16 @@ module AssetSync
       mime = Rack::Mime.mime_type(File.extname(f), nil)
       log "Guessed mime type for #{f}: #{mime}" if mime
 
+      # Do not set expire header for files that are always uploaded regardless of change.
+      expires = CGI.rfc1123_date(Time.now + 1.year) unless always_upload_files.include? f
+      log "Set expires for #{f}: #{expires}" if expires
+
       file = {
         :key => f,
         :body => File.open("#{path}/#{f}"),
         :public => true,
         :cache_control => "public, max-age=31557600",
-        :expires => CGI.rfc1123_date(Time.now + 1.year),
+        :expires => expires,
         :content_type => mime
       }
 
